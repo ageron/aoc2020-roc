@@ -26,7 +26,7 @@ roc main.roc 2 4 6
 
 ## Getting the data
 
-I've also included a little `get_data.py` utility to automatically download the data of the day, at the right time (you'll get a countdown if you're early). I was too lazy to code it in Haskell, but perhaps I'll port it one day. To use it, just type the following command in a terminal, replacing `{day}` with the day you want:
+I've also included a little `get_data.py` utility to automatically download the data of the day, at the right time (you'll get a countdown if you're early). I was too lazy to code it in Roc, but perhaps I'll port it one day. To use it, just type the following command in a terminal, replacing `{day}` with the day you want:
 
 ```
 cd /path/to/this/repository
