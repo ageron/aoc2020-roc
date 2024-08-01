@@ -1,4 +1,4 @@
-module [combinations, cartesianProduct, expectOks]
+module [combinations, cartesianProduct, expectOks, toSingle, toPair, toTriple]
 
 combinations : List a, U64 -> List List a
 combinations = \list, n ->
@@ -28,3 +28,18 @@ expectOks = \list, func ->
         Err ListContainsErr
     else
         Ok filtered
+
+toSingle = \list ->
+    when list is
+        [a] -> Ok a
+        _ -> Err NotASingle
+
+toPair = \list ->
+    when list is
+        [a, b] -> Ok (a, b)
+        _ -> Err NotAPair
+
+toTriple = \list ->
+    when list is
+        [a, b, c] -> Ok (a, b, c)
+        _ -> Err NotATriple

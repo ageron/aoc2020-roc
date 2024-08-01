@@ -4,23 +4,13 @@ import IterTools
 import cli.Task exposing [Task]
 
 parseLine = \line ->
-    when line |> Str.split ": " is
-        [policy, password] ->
-            when policy |> Str.split " " is
-                [valuesStr, letterStr] ->
-                    when valuesStr |> Str.split "-" is
-                        [lowStr, highStr] ->
-                            low <- Str.toU64 lowStr |> Result.onErr (\_ -> Err (ParsingError "low")) |> Result.try
-                            high <- Str.toU64 highStr |> Result.onErr (\_ -> Err (ParsingError "high")) |> Result.try
-                            when letterStr |> Str.toUtf8 is
-                                [letter] -> Ok (low, high, letter, password |> Str.toUtf8)
-                                _ -> Err (ParsingError "Invalid letter format")
-
-                        _ -> Err (ParsingError "Invalid values format")
-
-                _ -> Err (ParsingError "Invalid policy format")
-
-        _ -> Err (ParsingError "Invalid line format")
+    (policy, password) <- line |> Str.split ": " |> IterTools.toPair |> Result.try
+    (valuesStr, letterStr) <- policy |> Str.split " " |> IterTools.toPair |> Result.try
+    (lowStr, highStr) <- valuesStr |> Str.split "-" |> IterTools.toPair |> Result.try
+    low <- Str.toU64 lowStr |> Result.try
+    high <- Str.toU64 highStr |> Result.try
+    letter <- letterStr |> Str.toUtf8 |> IterTools.toSingle |> Result.try
+    Ok (low, high, letter, password |> Str.toUtf8)
 
 parsePasswordPolicy = \input ->
     input
